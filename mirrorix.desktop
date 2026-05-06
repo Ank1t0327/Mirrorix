@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Mirrorix
+Comment=Wireless Android Mirroring
+Exec=/usr/local/bin/mirrorix
+Icon=/usr/share/icons/mirrorix.png
+Terminal=false
+Categories=Utility;
+
