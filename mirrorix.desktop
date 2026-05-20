@@ -2,9 +2,16 @@
 Version=1.0
 Type=Application
 Name=Mirrorix
-Comment=Wireless Android Mirroring
+GenericName=Android Screen Mirroring
+Comment=Wireless Android Mirroring via TCP/IP
 Exec=/usr/local/bin/mirrorix
 Icon=/usr/share/icons/mirrorix.png
 Terminal=false
-Categories=Utility;
+Categories=Utility;Network;
+Keywords=android;mirror;scrcpy;wireless;screen;
+StartupNotify=true
+Actions=Stop;
 
+[Desktop Action Stop]
+Name=Stop Mirroring
+Exec=killall scrcpy

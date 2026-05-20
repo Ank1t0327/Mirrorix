@@ -14,4 +14,8 @@ sudo cp mirrorix.desktop /usr/share/applications/
 
 sudo cp icons/mirror.png /usr/share/icons/mirrorix.png
 
+sudo mkdir -p /usr/local/share/mirrorix
+sudo cp setup/first_run.sh /usr/local/share/mirrorix/first_run.sh
+sudo chmod +x /usr/local/share/mirrorix/first_run.sh
+
 echo "[+] Installation complete!"
