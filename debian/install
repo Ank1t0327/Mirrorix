@@ -1,0 +1,4 @@
+mirrorix.sh usr/bin
+mirrorix.desktop usr/share/applications
+icons/mirror.png usr/share/icons/hicolor/256x256/apps
+setup/first_run.sh usr/share/mirrorix

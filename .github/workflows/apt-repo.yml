@@ -1,0 +1,71 @@
+name: Build and Publish APT Repository
+
+on:
+  push:
+    branches:
+      - main
+      - master
+    tags:
+      - 'v*'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Install Build Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y dpkg-dev debhelper bzip2
+
+      - name: Build Debian Package
+        run: |
+          # Build the package
+          dpkg-buildpackage -us -uc -b
+          
+          # Move the built .deb to a staging directory
+          mkdir -p repo/dists/stable/main/binary-all
+          mv ../mirrorix_*.deb repo/dists/stable/main/binary-all/
+
+      - name: Generate APT Repository Metadata
+        run: |
+          cd repo
+          
+          # Generate Packages & Packages.gz
+          dpkg-scanpackages -m dists/stable/main/binary-all > dists/stable/main/binary-all/Packages
+          cat dists/stable/main/binary-all/Packages | gzip -9c > dists/stable/main/binary-all/Packages.gz
+          
+          # Generate Release file
+          cd dists/stable
+          echo "Origin: Mirrorix APT Repository" > Release
+          echo "Label: Mirrorix" >> Release
+          echo "Suite: stable" >> Release
+          echo "Codename: stable" >> Release
+          echo "Architectures: all" >> Release
+          echo "Components: main" >> Release
+          echo "Description: Mirrorix APT Repository" >> Release
+          
+          # Add checksums to Release file
+          echo "MD5Sum:" >> Release
+          for f in main/binary-all/Packages main/binary-all/Packages.gz; do
+            echo " $(md5sum $f | cut -d' ' -f1) $(stat -c%s $f) $f" >> Release
+          done
+          
+          echo "SHA256:" >> Release
+          for f in main/binary-all/Packages main/binary-all/Packages.gz; do
+            echo " $(sha256sum $f | cut -d' ' -f1) $(stat -c%s $f) $f" >> Release
+          done
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./repo
+          publish_branch: gh-pages
+          force_orphan: true
+          commit_message: "Update APT repository"

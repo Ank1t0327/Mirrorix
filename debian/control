@@ -1,0 +1,13 @@
+Source: mirrorix
+Section: utils
+Priority: optional
+Maintainer: Mirrorix Maintainer <maintainer@example.com>
+Build-Depends: debhelper (>= 11)
+Standards-Version: 4.1.3
+
+Package: mirrorix
+Architecture: all
+Depends: ${misc:Depends}, bash, scrcpy, adb, nmap, zenity, iproute2, gawk
+Description: Wireless Android Mirroring tool over TCP/IP
+ Mirrorix simplifies wireless Android screen mirroring using scrcpy.
+ It provides automatic network scanning, wireless ADB connection, and a desktop launcher.

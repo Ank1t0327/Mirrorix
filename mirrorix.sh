@@ -2,8 +2,16 @@
 
 CONFIG="$HOME/.mirrorix_setup_done"
 if [ ! -f "$CONFIG" ]; then
-    if [ -f "/usr/local/share/mirrorix/first_run.sh" ]; then
+    if [ -f "/usr/share/mirrorix/first_run.sh" ]; then
+        if bash "/usr/share/mirrorix/first_run.sh"; then
+            touch "$CONFIG"
+        fi
+    elif [ -f "/usr/local/share/mirrorix/first_run.sh" ]; then
         if bash "/usr/local/share/mirrorix/first_run.sh"; then
+            touch "$CONFIG"
+        fi
+    elif [ -f "$HOME/mirrorix/setup/first_run.sh" ]; then
+        if bash "$HOME/mirrorix/setup/first_run.sh"; then
             touch "$CONFIG"
         fi
     elif [ -f "$(dirname "$0")/setup/first_run.sh" ]; then
