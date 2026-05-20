@@ -23,7 +23,7 @@ Wireless Android screen mirroring for Linux using scrcpy + ADB.
 ## Installation
 
 ```bash
-git clone https://github.com/YOURNAME/mirrorix.git
+git clone https://github.com/Ank1t0327/mirrorix.git
 cd mirrorix
 chmod +x install.sh
 ./install.sh
