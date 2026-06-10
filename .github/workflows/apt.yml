@@ -1,0 +1,44 @@
+name: Build and Publish APT Repository
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install build dependencies
+        run: sudo apt-get update && sudo apt-get install -y debhelper dpkg-dev
+
+      - name: Build Debian package
+        run: |
+          make deb
+          mkdir -p public/apt
+          cp ../mirrorix_*.deb public/apt/
+          cd public/apt
+          dpkg-scanpackages . /dev/null | gzip -9c > Packages.gz
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2

@@ -26,14 +26,14 @@ The easiest way to install Mirrorix is via our official APT repository!
 
 ```bash
 # Add the Mirrorix APT repository
-echo "deb [trusted=yes] https://Ank1t0327.github.io/Mirrorix/ stable main" | sudo tee /etc/apt/sources.list.d/mirrorix.list
+echo "deb [trusted=yes] https://Ank1t0327.github.io/Mirrorix/apt/ ./" | sudo tee /etc/apt/sources.list.d/mirrorix.list
 
 # Update your package list and install
 sudo apt update
 sudo apt install mirrorix
 ```
 
-> **Note:** You must enable GitHub Pages from the Settings > Pages menu of your repository, and set the source branch to `gh-pages` for this to work.
+> **Note:** Mirrorix will display first-time setup instructions after installation. Be sure to run it with your device connected via USB the first time.
 
 ### Manual Installation (From Source)
 
@@ -71,7 +71,12 @@ Logs are saved to `~/.cache/mirrorix/mirrorix.log`. Check here if you encounter 
 
 ## Uninstallation
 
-To remove Mirrorix from your system, run:
+If installed via APT, run:
+```bash
+sudo apt remove mirrorix
+```
+
+If installed manually from source, run:
 ```bash
 ./uninstall.sh
 ```
